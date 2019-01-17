@@ -4,7 +4,35 @@
 		
 		<!-- link to main stylesheet -->
 		<link rel="stylesheet" type="text/css" href="/css/main.css">
-		
+		<style> 
+div {
+  width: 100px;
+  height: 100px;
+  background: red;
+  position: relative;
+  -webkit-animation: myfirst 5s 2; /* Safari 4.0 - 8.0 */
+  -webkit-animation-direction: alternate-reverse; /* Safari 4.0 - 8.0 */
+  animation: myfirst 5s 2;
+  animation-direction: alternate-reverse;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes myfirst {
+  0%   {background: red; left: 0px; top: 0px;}
+  25%  {background: yellow; left: 200px; top: 0px;}
+  
+  
+  100% {background: red; left: 0px; top: 0px;}
+}
+
+@keyframes myfirst {
+  0%   {background: red; left: 0px; top: 0px;}
+  25%  {background: yellow; left: 200px; top: 0px;}
+ 
+  
+  100% {background: red; left: 0px; top: 0px;}
+}
+</style>
 	
 	</head>
 	<html>
