@@ -1,260 +1,30 @@
-<h2><a id="Crash_course_intro_to_C_0"></a>Crash course intro to C</h2>
-<h1><a id="Want_a_quick_introduction_to_C_1"></a>Want a quick introduction to C?</h1>
-<ul>
-<li>Keep reading for the quick crash-course to C Programming below</li>
-</ul>
-<h1><a id="External_resources_3"></a>External resources</h1>
-<ul>
-<li><a href="https://learnxinyminutes.com/docs/c/">Learn X in Y</a> (Highly recommended to skim through!)</li>
-<li><a href="http://www.ccs.neu.edu/course/com3620/parent/C-for-Java-C++/c-for-c++-alt.html">C for C++/Java Programmers</a></li>
-<li><a href="http://www.lysator.liu.se/c/bwk-tutor.html">C Tutorial by Brian Kernighan</a></li>
-<li><a href="http://c-faq.com/">c faq</a></li>
-<li><a href="http://gribblelab.org/CBootCamp/index.html">C Bootcamp</a></li>
-<li><a href="http://www.cplusplus.com/reference/clibrary/">C/C++ function reference</a></li>
-<li><a href="http://www.unknownroad.com/rtfm/gdbtut/gdbtoc.html">gdb (Gnu debugger) tutorial</a> Tip: run gdb with the “-tui” command line argument to get a full-screen version of the debugger.</li>
-<li>Add your favorite resources here</li>
-</ul>
-<h2><a id="How_do_you_write_a_complete_hello_world_program_in_C_13"></a>How do you write a complete hello world program in C?</h2>
-<pre><code class="language-C"><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{ 
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Hello World\n"</span>);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; 
-}
-</code></pre>
-<h2><a id="Why_do_we_use_include_stdioh_21"></a>Why do we use ’<code>#include &lt;stdio.h&gt;</code>'?</h2>
-<p>We’re lazy! We don’t want to declare the <code>printf</code> function. It’s already done for us inside the file ’<code>stdio.h</code>'. The <code>#include</code> includes the text of the file as part of our file to be compiled.</p>
-<p>Specifically, the <code>#include</code> directive takes the file <code>stdio.h</code> (which stands for <strong>st</strong>an<strong>d</strong>ard <strong>i</strong>nput and <strong>o</strong>utput) located somewhere in your operating system, copies the text, and substitutes it where the <code>#include</code> was.</p>
-<h2><a id="How_are_C_strings_represented_26"></a>How are C strings represented?</h2>
-<p>They are represented as characters in memory.  The end of the string includes a NULL (0) byte. So “ABC” requires four(4) bytes <code>['A','B','C','\0']</code>. The only way to find out the length of a C string is to keep reading memory until you find the NULL byte. C characters are always exactly one byte each.</p>
-<p>When you write a string literal <code>&quot;ABC&quot;</code> in an expression the string literal evaluates to a char pointer (<code>char *</code>), which points to the first byte/char of the string.  This means <code>ptr</code> in the example below will hold the memory address of the first character in the string.</p>
-<pre><code class="language-C"><span class="hljs-keyword">char</span> *ptr = <span class="hljs-string">"ABC"</span>
-</code></pre>
-<p>Some common ways to initialize a string include:</p>
-<pre><code class="language-C"><span class="hljs-keyword">char</span> *str = <span class="hljs-string">"ABC"</span>;
-<span class="hljs-keyword">char</span> str[] = <span class="hljs-string">"ABC"</span>;
-<span class="hljs-keyword">char</span> str[]={<span class="hljs-string">'A'</span>,<span class="hljs-string">'B'</span>,<span class="hljs-string">'C'</span>,<span class="hljs-string">'\0'</span>};
-</code></pre>
-<h2><a id="How_do_you_declare_a_pointer_40"></a>How do you declare a pointer?</h2>
-<p>A pointer refers to a memory address. The type of the pointer is useful - it tells the compiler how many bytes need to be read/written. You can declare a pointer as follows.</p>
-<pre><code class="language-C"><span class="hljs-keyword">int</span> *ptr1;
-<span class="hljs-keyword">char</span> *ptr2;
-</code></pre>
-<p>Due to C’s grammar, an <code>int*</code> or any pointer is not actually its own type. You have to precede each pointer variable with an asterisk. As a common gotcha, the following</p>
-<pre><code class="language-C"><span class="hljs-keyword">int</span>* ptr3, ptr4;
-</code></pre>
-<p>Will only declare <code>*ptr3</code> as a pointer. <code>ptr4</code> will actually be a regular int variable. To fix this declaration, keep the <code>*</code> preceding to the pointer</p>
-<pre><code class="language-C"><span class="hljs-keyword">int</span> *ptr3, *ptr4;
-</code></pre>
-<h2><a id="How_do_you_use_a_pointer_to_readwrite_some_memory_56"></a>How do you use a pointer to read/write some memory?</h2>
-<p>Let’s say that we declare a pointer <code>int *ptr</code>. For the sake of discussion, let’s say that <code>ptr</code> points to memory address <code>0x1000</code>. If we want to write to a pointer, we can dereference and assign <code>*ptr</code>.</p>
-<pre><code class="language-C">*ptr = <span class="hljs-number">0</span>; <span class="hljs-comment">// Writes some memory.</span>
-</code></pre>
-<p>What C will do is take the type of the pointer which is an <code>int</code> and writes <code>sizeof(int)</code> bytes from the start of the pointer, meaning that bytes <code>0x1000</code>, <code>0x1001</code>, <code>0x1002</code>, <code>0x1003</code> will all be zero. The number of bytes written depends on the pointer type. It is the same for all primitive types but structs are a little different.</p>
-<h2><a id="What_is_pointer_arithmetic_65"></a>What is pointer arithmetic?</h2>
-<p>You can add an integer to a pointer. However, the pointer type is used to determine how much to increment the pointer. For char pointers this is trivial because characters are always one byte:</p>
-<pre><code class="language-C"><span class="hljs-keyword">char</span> *ptr = <span class="hljs-string">"Hello"</span>; <span class="hljs-comment">// ptr holds the memory location of 'H'</span>
-ptr += <span class="hljs-number">2</span>; <span class="hljs-comment">//ptr now points to the first'l'</span>
-</code></pre>
-<p>If an int is 4 bytes then ptr+1 points to 4 bytes after whatever ptr is pointing at.</p>
-<pre><code class="language-C"><span class="hljs-keyword">char</span> *ptr = <span class="hljs-string">"ABCDEFGH"</span>;
-<span class="hljs-keyword">int</span> *bna = (<span class="hljs-keyword">int</span> *) ptr;
-bna +=<span class="hljs-number">1</span>; <span class="hljs-comment">// Would cause iterate by one integer space (i.e 4 bytes on some systems)</span>
-ptr = (<span class="hljs-keyword">char</span> *) bna;
-<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%s"</span>, ptr);
-<span class="hljs-comment">/* Notice how only 'EFGH' is printed. Why is that? Well as mentioned above, when performing 'bna+=1' we are increasing the **integer** pointer by 1, (translates to 4 bytes on most systems) which is equivalent to 4 characters (each character is only 1 byte)*/</span>
-<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-</code></pre>
-<p>Because pointer arithmetic in C is always automatically scaled by the size of the type that is pointed to, you can’t perform pointer arithmetic on void pointers.</p>
-<p>You can think of pointer arithmetic in C as essentially doing the following</p>
-<p>If I want to do</p>
-<pre><code class="language-C"><span class="hljs-keyword">int</span> *ptr1 = ...;
-<span class="hljs-keyword">int</span> *offset = ptr1 + <span class="hljs-number">4</span>;
-</code></pre>
-<p>Think</p>
-<pre><code class="language-C"><span class="hljs-keyword">int</span> *ptr1 = ...;
-<span class="hljs-keyword">char</span> *temp_ptr1 = (<span class="hljs-keyword">char</span>*) ptr1;
-<span class="hljs-keyword">int</span> *offset = (<span class="hljs-keyword">int</span>*)(temp_ptr1 + <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>)*<span class="hljs-number">4</span>);
-</code></pre>
-<p>To get the value. <strong>Every time you do pointer arithmetic, take a deep breath and make sure that you are shifting over the number of bytes you think you are shifting over.</strong></p>
-<h2><a id="What_is_a_void_pointer_100"></a>What is a void pointer?</h2>
-<p>A pointer without a type (very similar to a void variable). Void pointers are used when either a datatype you’re dealing with is unknown or when you’re interfacing C code with other programming languages. You can think of this as a raw pointer, or just a memory address. You cannot directly read or write to it because the void type does not have a size. For Example</p>
-<pre><code class="language-C"><span class="hljs-keyword">void</span> *give_me_space = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">10</span>);
-<span class="hljs-keyword">char</span> *<span class="hljs-built_in">string</span> = give_me_space;
-</code></pre>
-<p>This does not require a cast because C automatically promotes <code>void*</code> to its appropriate type.<br>
-<strong>Note:</strong></p>
-<p>gcc and clang are not total ISO-C compliant, meaning that they will let you do arithmetic on a void pointer. They will treat it as a char pointer but do not do this because it may not work with all compilers!</p>
-<h2><a id="Does_printf_call_write_or_does_write_call_printf_112"></a>Does <code>printf</code> call write or does write call <code>printf</code>?</h2>
-<p><code>printf</code> calls <code>write</code>. <code>printf</code> includes an internal buffer so, to increase performance <code>printf</code> may not call <code>write</code> everytime you call <code>printf</code>. <code>printf</code> is a C library function. <code>write</code> is a system call and as we know system calls are expensive. On the other hand, <code>printf</code> uses a buffer which suits our needs better at that point</p>
-<h2><a id="How_do_you_print_out_pointer_values_integers_strings_115"></a>How do you print out pointer values? integers? strings?</h2>
-<p>Use format specifiers “%p” for pointers, “%d” for integers and “%s” for Strings.<br>
-A full list of all of the format specifiers is found <a href="http://www.cplusplus.com/reference/cstdio/printf/">here</a></p>
-<p>Example of integer:</p>
-<pre><code class="language-C"><span class="hljs-keyword">int</span> num1 = <span class="hljs-number">10</span>;
-<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d"</span>, num1); <span class="hljs-comment">//prints num1</span>
-</code></pre>
-<p>Example of integer pointer:</p>
-<pre><code class="language-C"><span class="hljs-keyword">int</span> *ptr = (<span class="hljs-keyword">int</span> *) <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));
-*ptr = <span class="hljs-number">10</span>;
-<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%p\n"</span>, ptr); <span class="hljs-comment">//prints the address pointed to by the pointer</span>
-<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%p\n"</span>, &amp;ptr); <span class="hljs-comment">/*prints the address of pointer -- extremely useful
-when dealing with double pointers*/</span>
-<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d"</span>, *ptr); <span class="hljs-comment">//prints the integer content of ptr</span>
-<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-</code></pre>
-<p>Example of string:</p>
-<pre><code class="language-C"><span class="hljs-keyword">char</span> *str = (<span class="hljs-keyword">char</span> *) <span class="hljs-built_in">malloc</span>(<span class="hljs-number">256</span> * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">char</span>));
-<span class="hljs-built_in">strcpy</span>(str, <span class="hljs-string">"Hello there!"</span>);
-<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%p\n"</span>, str); <span class="hljs-comment">// print the address in the heap</span>
-<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%s"</span>, str);
-<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-</code></pre>
-<p><a href="https://www.cs.bu.edu/teaching/c/string/intro/">Strings as Pointers &amp; Arrays @ BU</a></p>
-<h2><a id="How_would_you_make_standard_out_be_saved_to_a_file_146"></a>How would you make standard out be saved to a file?</h2>
-<p>Simplest way: run your program and use shell redirection<br>
-e.g.</p>
-<pre><code>./program &gt; output.txt
-
-#To read the contents of the file,
-cat output.txt
-</code></pre>
-<p>More complicated way: close(1) and then use open to re-open the file descriptor.<br>
-See [[<a href="http://cs-education.github.io/sys/#chapter/0/section/3/activity/0">http://cs-education.github.io/sys/#chapter/0/section/3/activity/0</a>]]</p>
-<h2><a id="Whats_the_difference_between_a_pointer_and_an_array_Give_an_example_of_something_you_can_do_with_one_but_not_the_other_157"></a>What’s the difference between a pointer and an array? Give an example of something you can do with one but not the other.</h2>
-<pre><code class="language-C"><span class="hljs-keyword">char</span> ary[] = <span class="hljs-string">"Hello"</span>;
-<span class="hljs-keyword">char</span> *ptr = <span class="hljs-string">"Hello"</span>;
-</code></pre>
-<p>Example</p>
-<p>The array name points to the first byte of the array. Both <code>ary</code> and <code>ptr</code> can be printed out:</p>
-<pre><code class="language-C"><span class="hljs-keyword">char</span> ary[] = <span class="hljs-string">"Hello"</span>;
-<span class="hljs-keyword">char</span> *ptr = <span class="hljs-string">"Hello"</span>;
-<span class="hljs-comment">// Print out address and contents</span>
-<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%p : %s\n"</span>, ary, ary);
-<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%p : %s\n"</span>, ptr, ptr);
-</code></pre>
-<p>The array is mutable, so we can change its contents (be careful not to write bytes beyond the end of the array though). Fortunately, ‘World’ is no longer than 'Hello&quot;</p>
-<p>In this case, the char pointer <code>ptr</code> points to some read-only memory (where the statically allocated string literal is stored), so we cannot change those contents.</p>
-<pre><code class="language-C"><span class="hljs-built_in">strcpy</span>(ary, <span class="hljs-string">"World"</span>); <span class="hljs-comment">// OK</span>
-<span class="hljs-built_in">strcpy</span>(ptr, <span class="hljs-string">"World"</span>); <span class="hljs-comment">// NOT OK - Segmentation fault (crashes)</span>
-
-</code></pre>
-<p>We can, however, unlike the array, we change <code>ptr</code> to point to another piece of memory,</p>
-<pre><code class="language-C">ptr = <span class="hljs-string">"World"</span>; <span class="hljs-comment">// OK!</span>
-ptr = ary; <span class="hljs-comment">// OK!</span>
-ary = (..anything..) ; <span class="hljs-comment">// WONT COMPILE</span>
-<span class="hljs-comment">// ary is doomed to always refer to the original array.</span>
-<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%p : %s\n"</span>, ptr, ptr);
-<span class="hljs-built_in">strcpy</span>(ptr, <span class="hljs-string">"World"</span>); <span class="hljs-comment">// OK because now ptr is pointing to mutable memory (the array)</span>
-</code></pre>
-<p>What to take away from this is that pointers * can point to any type of memory while C arrays [] can only point to memory on the stack. In a more common case, pointers will point to heap memory in which case the memory referred to by the pointer CAN be modified.</p>
-<h2><a id="sizeof_returns_the_number_of_bytes_So_using_above_code_what_is_sizeofary_and_sizeofptr_192"></a><code>sizeof()</code> returns the number of bytes. So using above code, what is sizeof(ary) and sizeof(ptr)?</h2>
-<p><code>sizeof(ary)</code>: <code>ary</code> is an array. Returns the number of bytes required for the entire array (5 chars + zero byte = 6 bytes)<br>
-<code>sizeof(ptr)</code>: Same as sizeof(char *). Returns the number bytes required for a pointer (e.g. 4 or 8 for a 32 bit or 64-bit machine)</p>
-<p><code>sizeof</code> is a special operator. Really it’s something the compiler substitutes in before compiling the program because the size of all types is known at compile time. When you have <code>sizeof(char*)</code> that takes the size of a pointer on your machine (8 bytes for a 64-bit machine and 4 for a 32 bit and so on). When you try <code>sizeof(char[])</code>, the compiler looks at that and substitutes the number of bytes that the <strong>entire</strong> array contains because the total size of the array is known at compile time.</p>
-<pre><code class="language-C"><span class="hljs-keyword">char</span> str1[] = <span class="hljs-string">"will be 11"</span>;
-<span class="hljs-keyword">char</span>* str2 = <span class="hljs-string">"will be 8"</span>;
-<span class="hljs-keyword">sizeof</span>(str1) <span class="hljs-comment">//11 because it is an array</span>
-<span class="hljs-keyword">sizeof</span>(str2) <span class="hljs-comment">//8 because it is a pointer</span>
-</code></pre>
-<p>Be careful, using sizeof for the length of a string!</p>
-<h2><a id="Which_of_the_following_code_is_incorrect_or_correct_and_why_207"></a>Which of the following code is incorrect or correct and why?</h2>
-<pre><code class="language-C"><span class="hljs-function"><span class="hljs-keyword">int</span>* <span class="hljs-title">f1</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *p)</span> </span>{
-    *p = <span class="hljs-number">42</span>;
-    <span class="hljs-keyword">return</span> p;
-} <span class="hljs-comment">// This code is correct;</span>
-</code></pre>
-<pre><code class="language-C"><span class="hljs-function"><span class="hljs-keyword">char</span>* <span class="hljs-title">f2</span><span class="hljs-params">()</span> </span>{
-    <span class="hljs-keyword">char</span> p[] = <span class="hljs-string">"Hello"</span>;
-    <span class="hljs-keyword">return</span> p;
-} <span class="hljs-comment">// Incorrect!</span>
-</code></pre>
-<p>Explanation: An array p is created on the stack for the correct size to hold H,e,l,l,o, and a null byte i.e. (6) bytes. This array is stored on the stack and is invalid after we return from f2.</p>
-<pre><code class="language-C"><span class="hljs-function"><span class="hljs-keyword">char</span>* <span class="hljs-title">f3</span><span class="hljs-params">()</span> </span>{
-    <span class="hljs-keyword">char</span> *p = <span class="hljs-string">"Hello"</span>;
-    <span class="hljs-keyword">return</span> p;
-} <span class="hljs-comment">// OK</span>
-</code></pre>
-<p>Explanation: p is a pointer. It holds the address of the string constant. The string constant is unchanged and valid even after f3 returns.</p>
-<pre><code class="language-C"><span class="hljs-function"><span class="hljs-keyword">char</span>* <span class="hljs-title">f4</span><span class="hljs-params">()</span> </span>{
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">char</span> p[] = <span class="hljs-string">"Hello"</span>;
-    <span class="hljs-keyword">return</span> p;
-} <span class="hljs-comment">// OK</span>
-</code></pre>
-<p>Explanation: The array is static meaning it exists for the lifetime of the process (static variables are not on the heap or the stack).</p>
-<h2><a id="How_do_you_look_up_information_C_library_calls_and_system_calls_238"></a>How do you look up information C library calls and system calls?</h2>
-<p>Use the man pages. Note the man pages are organized into sections. Section 2 = System calls. Section 3 = C libraries.<br>
-Web: Google “man7 open”<br>
-shell: man -S2 open  or man -S3 printf</p>
-<h2><a id="How_do_you_allocate_memory_on_the_heap_243"></a>How do you allocate memory on the heap?</h2>
-<p>Use malloc. There’s also realloc and calloc.<br>
-Typically used with sizeof. e.g. enough space to hold 10 integers</p>
-<pre><code class="language-C"><span class="hljs-keyword">int</span> *space = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) * <span class="hljs-number">10</span>);
-</code></pre>
-<h2><a id="Whats_wrong_with_this_string_copy_code_250"></a>What’s wrong with this string copy code?</h2>
-<pre><code class="language-C"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">mystrcpy</span><span class="hljs-params">(<span class="hljs-keyword">char</span>*dest, <span class="hljs-keyword">char</span>* src)</span> </span>{ 
-  <span class="hljs-comment">// void means no return value   </span>
-  <span class="hljs-keyword">while</span>( *src ) { dest = src; src ++; dest++; }  
-}
-</code></pre>
-<p>In the above code it simply changes the dest pointer to point to source string. Also the nuls bytes are not copied. Here’s a better version -</p>
-<pre><code>  while( *src ) { *dest = *src; src ++; dest++; } 
-  *dest = *src;
-</code></pre>
-<p>Note it’s also usual to see the following kind of implementation, which does everything inside the expression test, including copying the nul byte.</p>
-<pre><code class="language-C">  <span class="hljs-keyword">while</span>( (*dest++ = *src++ )) {};
-</code></pre>
-<h2><a id="How_do_you_write_a_strdup_replacement_268"></a>How do you write a strdup replacement?</h2>
-<pre><code class="language-C"><span class="hljs-comment">// Use strlen+1 to find the zero byte... </span>
-<span class="hljs-function"><span class="hljs-keyword">char</span>* <span class="hljs-title">mystrdup</span><span class="hljs-params">(<span class="hljs-keyword">char</span>*source)</span> </span>{
-   <span class="hljs-keyword">char</span> *p = (<span class="hljs-keyword">char</span> *) <span class="hljs-built_in">malloc</span> ( <span class="hljs-built_in">strlen</span>(source)+<span class="hljs-number">1</span> );
-   <span class="hljs-built_in">strcpy</span>(p,source);
-   <span class="hljs-keyword">return</span> p;
-}
-</code></pre>
-<h2><a id="How_do_you_unallocate_memory_on_the_heap_278"></a>How do you unallocate memory on the heap?</h2>
-<p>Use free!</p>
-<pre><code class="language-C"><span class="hljs-keyword">int</span> *n = (<span class="hljs-keyword">int</span> *) <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));
-*n = <span class="hljs-number">10</span>;
-<span class="hljs-comment">//Do some work</span>
-<span class="hljs-built_in">free</span>(n);
-</code></pre>
-<h2><a id="What_is_double_free_error_How_can_you_avoid_What_is_a_dangling_pointer_How_do_you_avoid_287"></a>What is double free error? How can you avoid? What is a dangling pointer? How do you avoid?</h2>
-<p>A double free error is when you accidentally attempt to free the same allocation twice.</p>
-<pre><code class="language-C"><span class="hljs-keyword">int</span> *p = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));
-<span class="hljs-built_in">free</span>(p);
-
-*p = <span class="hljs-number">123</span>; <span class="hljs-comment">// Oops! - Dangling pointer! Writing to memory we don't own anymore</span>
-
-<span class="hljs-built_in">free</span>(p); <span class="hljs-comment">// Oops! - Double free!</span>
-</code></pre>
-<p>The fix is first to write correct programs! Secondly, it’s good programming hygiene to reset pointers<br>
-once the memory has been freed. This ensures the pointer can’t be used incorrectly without the program crashing.</p>
-<p>Fix:</p>
-<pre><code class="language-C">p = <span class="hljs-literal">NULL</span>; <span class="hljs-comment">// Now you can't use this pointer by mistake</span>
-</code></pre>
-<h2><a id="What_is_an_example_of_buffer_overflow_306"></a>What is an example of buffer overflow?</h2>
-<p>Famous example: Heart Bleed (performed a memcpy into a buffer that was of insufficient size).<br>
-Simple example: implement a strcpy and forget to add one to strlen, when determining the size of the memory required.</p>
-<h2><a id="What_is_typedef_and_how_do_you_use_it_310"></a>What is ‘typedef’ and how do you use it?</h2>
-<p>Declares an alias for a type. Often used with structs to reduce the visual clutter of having to write ‘struct’ as part of the type.</p>
-<pre><code class="language-C"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">float</span> real; 
-real gravity = <span class="hljs-number">10</span>;
-<span class="hljs-comment">// Also typedef gives us an abstraction over the underlying type used. </span>
-<span class="hljs-comment">// In the future, we only need to change this typedef if we</span>
-<span class="hljs-comment">// wanted our physics library to use doubles instead of floats.</span>
-
-<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> link <span class="hljs-keyword">link_t</span>; 
-<span class="hljs-comment">//With structs, include the keyword 'struct' as part of the original types</span>
-</code></pre>
-<p>In this class, we regularly typedef functions. A typedef for a function can be this for example</p>
-<pre><code class="language-C"><span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">int</span> <span class="hljs-params">(*comparator)</span><span class="hljs-params">(<span class="hljs-keyword">void</span>*,<span class="hljs-keyword">void</span>*)</span></span>;
-
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">greater_than</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* a, <span class="hljs-keyword">void</span>* b)</span></span>{
-    <span class="hljs-keyword">return</span> a &gt; b;
-}
-comparator gt = greater_than;
-</code></pre>
-<p>This declares a function type comparator that accepts two <code>void*</code> params and returns an integer.</p>
-<h2><a id="Wow_that_was_a_lot_of_C_336"></a>Wow that was a lot of C</h2>
-<p>Don’t worry more to come!</p>
-
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>bhavana kudkyal</title>
+		<!-- link to main stylesheet -->
+		<link rel="stylesheet" type="text/css" href="/css/main.css">
+	</head>
+	<body>
+		<nav>
+    		<ul>
+        		<li><a href="/">Home</a></li>
+	        	<li><a href="/about">About</a></li>
+        		<li><a href="/cv">CV</a></li>
+        		<li><a href="/blog">Blog</a></li>
+    		</ul>
+		</nav>
+		<div class="container">
+    		<div class="blurb">
+        		<h1>Hi there, I'm bhavana kudkyal!</h1>
+				<p>I'm best known as the horrible cop from <em>A Touch of Evil</em> Don't trust me. <a href="/about">Read more about my life...</a></p>
+    		</div><!-- /.blurb -->
+		</div><!-- /.container -->
+		<footer>
+    		<ul>
+        		<li><a href="mailto:bhavanaak145@gmail.com">email</a></li>
+        		<li><a href="https://github.com/bhavanaak145">github.com/bhavanaak145</a></li>
+			</ul>
+		</footer>
+	</body>
+</html>
