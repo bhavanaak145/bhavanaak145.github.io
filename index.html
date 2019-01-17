@@ -20,6 +20,13 @@
 				<p>I'm best known as the horrible cop from <em>A Touch of Evil</em> Don't trust me. <a href="/about">Read more about my life...</a></p>
     		</div><!-- /.blurb -->
 		</div><!-- /.container -->
+		<div class="highlight highlight-source-c"><pre><span class="pl-k">int</span> *ptr = (<span class="pl-k">int</span> *) malloc(<span class="pl-k">sizeof</span>(<span class="pl-k">int</span>));
+*ptr = <span class="pl-c1">10</span>;
+<span class="pl-en">printf</span>(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-c1">%p</span><span class="pl-cce">\n</span><span class="pl-pds">"</span></span>, ptr); <span class="pl-c"><span class="pl-c">//</span>prints the address pointed to by the pointer</span>
+<span class="pl-en">printf</span>(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-c1">%p</span><span class="pl-cce">\n</span><span class="pl-pds">"</span></span>, &amp;ptr); <span class="pl-c"><span class="pl-c">/*</span>prints the address of pointer -- extremely useful</span>
+<span class="pl-c">when dealing with double pointers<span class="pl-c">*/</span></span>
+<span class="pl-en">printf</span>(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-c1">%d</span><span class="pl-pds">"</span></span>, *ptr); <span class="pl-c"><span class="pl-c">//</span>prints the integer content of ptr</span>
+<span class="pl-k">return</span> <span class="pl-c1">0</span>;</pre></div>
 		<footer>
     		<ul>
         		<li><a href="mailto:bhavanaak145@gmail.com">email</a></li>
