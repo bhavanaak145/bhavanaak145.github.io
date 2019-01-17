@@ -1,43 +1,95 @@
-body {
-    margin: 60px auto;
-    width: 70%;
+body, p, li, div, h1, h2, h3, h4, h5, h6, td {
+  color: #000000;
+  font-family: "Liberation Sans", "Helvetica Neue", Calibri, sans-serif;
 }
-nav ul, footer ul {
-    font-family:'Helvetica', 'Arial', 'Sans-Serif';
-    padding: 0px;
-    list-style: none;
-    font-weight: bold;
+code {
+  font-family: "Liberation Mono", Consolas, monospace;
+  font-weight: bold;
 }
-nav ul li, footer ul li {
-    display: inline;
-    margin-right: 20px;
+pre {
+  background: #FFFFFF;
+  border: 1px solid #B8C0C4;
+  padding: 4px 8px 4px 8px;
+  margin: 0px 1em;
+  max-width: 56em;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: "Liberation Mono", Consolas, monospace;
+  font-weight: normal;
+  color: #474747;
+}
+pre code {
+  font-family: "Liberation Mono", Consolas, monospace;
+  font-weight: normal;
+  color: #474747;
+}
+dd {
+  margin-bottom: 1em;
+}
+dd p {
+  margin-top: 0px;
+}
+dd pre {
+  margin: 1em 0px;
+}
+blockquote {
+  border-left: 3px solid #B6B6B6;
+  margin: 1em;
+  padding-left: 1em;
 }
 a {
-    text-decoration: none;
-    color: #999;
+  text-decoration: none;
+  color: #600000;
 }
-a:hover {
-    text-decoration: underline;
+a:after {
+   content: " (" attr(href) ") ";
+   font-size: 90%;
 }
-h1 {
-    font-size: 3em;
-    font-family:'Helvetica', 'Arial', 'Sans-Serif';
+/* fix for space in list items containing <pre> */
+li p {
+  margin-top: 0px;
 }
-p {
-    font-size: 1.5em;
-    line-height: 1.4em;
-    color: #333;
+li pre {
+  margin-bottom: 1em;
 }
-footer {
-    border-top: 1px solid #d5d5d5;
-    font-size: .8em;
+td, th {
+  padding: 0.1em 1em;
 }
-
-ul.posts { 
-    margin: 20px auto 40px; 
-    font-size: 1.5em;
+/* Metadata Table */
+table#metadata {
+  margin: 1em 0em 1em 1em;
+  border-collapse: collapse;
+  border-top: 1px solid #EDEDED;
+  float: right;
 }
-
-ul.posts li {
-    list-style: none;
+.mda {
+  /* metadata attribute */
+  border-left: 1px solid #EDEDED;
+  border-bottom: 1px solid #EDEDED;
+  font-weight: bold;
+  vertical-align: top;
+}
+.mdv {
+  /* metadata value */
+  border-right: 1px solid #EDEDED;
+  border-bottom: 1px solid #EDEDED;
+}
+/* Don't print these things */
+.controls {
+  display: none;
+}
+#hideButton {
+  display: none;
+}
+#showButton {
+  display: none;
+}
+#TOC {
+  display: none;
+}
+#bigfoot {
+  display: none;
+}
+.permalink {
+  display: none;
 }
