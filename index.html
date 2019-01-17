@@ -1,30 +1,145 @@
-<!DOCTYPE html>
 <html>
-	<head>
-		<title>bhavana kudkyal</title>
-<!-- link to main stylesheet -->
-		<link rel="stylesheet" type="text/css" href="/css/main.css">
-	</head>
-	<body>
-		<nav>
-    		<ul>
-        		<li><a href="/">Home</a></li>
-	        	<li><a href="/about">About</a></li>
-        		<li><a href="/cv">CV</a></li>
-        		<li><a href="/blog">Blog</a></li>
-    		</ul>
-		</nav>
-		<div class="container">
-    		<div class="blurb">
-        		<h1>Hi there, I'm Bhavana Kudkyal!</h1>
-				<p>I'm best known as the horrible cop from <em>A Touch of Evil</em> Don't trust me. <a href="/about">Read more about my life...</a></p>
-    		</div><!-- /.blurb -->
-		</div><!-- /.container -->
-		<footer>
-    		<ul>
-        		<li><a href="mailto:bhvanaak145@gmail.com">email</a></li>
-        		<li><a href="https://github.com/bhavanaak145">github.com/bhavanaak145</a></li>
-			</ul>
-		</footer>
-	</body>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="/markdown/markdown-screen.css" type="text/css" media="screen" charset="utf-8">
+  <link rel="stylesheet" href="" type="text/css" media="screen" charset="utf-8">
+  <link rel="stylesheet" href="/markdown/markdown-print.css" type="text/css" media="print" charset="utf-8">
+  <title>Render Markdown as HTML</title>
+  <script type="text/javascript" charset="utf-8">
+    function toggleVisibility(theButton, targetName) {
+      var target = document.getElementById(targetName);
+      if ( target.style.opacity == '0' ) {
+        // show
+        target.style.left = '0px';
+        target.style.position = 'relative';
+        target.style.opacity = '1';
+        theButton.innerHTML = "Hide Table of Contents";
+      } else {
+        // hide
+        target.style.left = '-4000px';
+        target.style.position = 'absolute';
+        target.style.opacity = '0';
+        theButton.innerHTML = "Show Table of Contents";
+      }
+      return true;
+    }
+  </script>
+  <script type="text/javascript" src="http://use.typekit.com/pgy4plx.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+</head>
+<body onLoad="javascript:toggleVisibility(document.getElementById('showhide'), 'TOC');">
+<div class="controls" style="float: right"><a href="/Example.mdown-text">View Original Text</a></div>
+
+<p id="showhide" class="controls" onClick="toggleVisibility(this, 'TOC');">Hide Table of Contents</p>
+
+<div id="TOC">
+<ul>
+<li><a href="#render-markdown-as-html">Render Markdown as HTML</a><ul>
+<li><a href="#features">Features</a><ul>
+<li><a href="#metadata">Metadata</a></li>
+</ul>
+</li>
+<li><a href="#requirements">Requirements</a><ul>
+<li><a href="#php">PHP</a></li>
+<li><a href="#python">Python</a></li>
+</ul>
+</li>
+<li><a href="#setup">Setup</a><ul>
+<li><a href="#php_1">PHP</a></li>
+<li><a href="#python_1">Python</a></li>
+</ul>
+</li>
+<li><a href="#cautions">Cautions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<table id="metadata">
+</table>
+
+<h1 id="render-markdown-as-html">Render Markdown as HTML</h1>
+<p>This script was created to convert <a href="http://daringfireball.net/projects/markdown/">Markdown</a> files to usable HTML on-the-fly on various web sites I deal with. It's intended for situations where the web server will be serving out Markdown files directly. It wasn't meant to be used with blogging or CMS tools. There are usually plug-ins for that.</p>
+<p>As an example, here's <a href="http://projects.skurfer.com/Example.mdown">this README</a> being processed by the script.</p>
+<p>By combining this with Apache's "Fancy Indexing" and WebDAV, you can throw together a quick and dirty documentation repository, for instance. Or maybe you just want to quickly share a document with someone on an existing web server without worrying about whether or not they've heard of Markdown.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>Generates HTML (with specific stylesheets for screen display and printing).</li>
+<li>Generates a clickable table of contents (hidden by default) based on any headings found in the file.</li>
+<li>Provides a link that will display the original text version of the document.</li>
+<li>Metadata support (see below)</li>
+<li>A mostly self-explanatory INI file is included to control behavior.</li>
+<li>Syntax highlighting in <code>&lt;pre&gt;</code> blocks using Pygments (Python only)</li>
+</ul>
+<h3 id="metadata">Metadata</h3>
+<p><a href="https://github.com/fletcher/MultiMarkdown/wiki/MultiMarkdown-Syntax-Guide">MultiMarkdown metadata</a> can be ignored, removed, or displayed in a table. The table has an ID and it's parts have classes, so you can more easily target it in your CSS.</p>
+<p>If you choose to display metadata in a table, you can optionally have certain values in the table turned into links. For instance, say you have all your documents indexed somehow by a metadata attribute called "tags" and your site will list matching documents at a URL like "http://www.mysite.tld/tags/foo". To make the displayed tags link to the appropriate address, you could define this in the INI:</p>
+<div class="codehilite"><pre><span></span>link_attrs[] = &quot;tags&quot;
+link_pattern = &quot;http://www.mysite.tld/%k/%v&quot;
+</pre></div>
+
+
+<p><code>link_attrs</code> is an array of possible attribute names, so be sure to include the empty trailing brackets.</p>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Apache with mod_rewrite (This could surely be made to work with other web servers. If anyone does so, please let me know what it takes so I can include the instructions here.)</li>
+</ul>
+<h3 id="php">PHP</h3>
+<ul>
+<li><a href="http://michelf.com/projects/php-markdown/">PHP Markdown</a> (or PHP Markdown Extra)</li>
+<li><a href="http://michelf.com/projects/php-smartypants/">PHP SmartyPants</a> (optional)</li>
+</ul>
+<h3 id="python">Python</h3>
+<ul>
+<li><a href="http://packages.python.org/Markdown/">Python-Markdown</a></li>
+<li><a href="http://pygments.org/">Pygments</a></li>
+</ul>
+<h2 id="setup">Setup</h2>
+<p>Clone this repository. For example:</p>
+<div class="codehilite"><pre><span></span>mkdir /var/www/support
+cd /var/www/support
+git clone git://github.com/skurfer/RenderMarkdown.git markdown
+</pre></div>
+
+
+<p>Copy all the <code>.default</code> files and edit to your liking.</p>
+<h3 id="php_1">PHP</h3>
+<p>Download <a href="http://michelf.com/projects/php-markdown/">PHP Markdown</a> (or PHP Markdown Extra) and <a href="http://michelf.com/projects/php-smartypants/">PHP SmartyPants</a> from Michel Fortin. Put <code>markdown.php</code> and <code>smartypants.php</code> somewhere in PHP's include path (or in the same directory as <code>render.php</code>).</p>
+<p>Add an alias in your Apache config:</p>
+<div class="codehilite"><pre><span></span>Alias /markdown/ &quot;/var/www/support/markdown/&quot;
+</pre></div>
+
+
+<p>Add rewrite rules. This can be done in the <code>.htaccess</code> file for a specific folder, or in the global Apache config. Some common extensions are included, but you can adjust them to your needs. (You might want to process <em>all</em> text as Markdown by adding "txt".)</p>
+<div class="codehilite"><pre><span></span># display Markdown as HTML by default
+RewriteEngine on
+RewriteRule .+\.(markdown|mdown|md|mkd)$ /markdown/render.php
+RewriteRule .+\.(markdown|mdown|md|mkd)\-text$ /markdown/render.php [L]
+</pre></div>
+
+
+<h3 id="python_1">Python</h3>
+<p>Install Python-Markdown and Pygments:</p>
+<div class="codehilite"><pre><span></span>pip install markdown pygments
+</pre></div>
+
+
+<p>Configure <code>mod_wsgi</code> for Apache:</p>
+<div class="codehilite"><pre><span></span><span class="nt">&lt;IfModule</span> <span class="err">wsgi_module</span><span class="nt">&gt;</span>
+    WSGIScriptAlias /markdown /var/www/support/markdown/render_markdown.py
+<span class="nt">&lt;/IfModule&gt;</span>
+</pre></div>
+
+
+<p>Add rewrite rules. This can be done in the <code>.htaccess</code> file for a specific folder, or in the global Apache config. Some common extensions are included, but you can adjust them to your needs. (You might want to process <em>all</em> text as Markdown by adding "txt".)</p>
+<div class="codehilite"><pre><span></span># display Markdown as HTML by default
+RewriteEngine on
+RewriteRule .+\.(markdown|mdown|md|mkd)$ /markdown
+RewriteRule .+\.(markdown|mdown|md|mkd)\-text$ /markdown [L]
+</pre></div>
+
+
+<h2 id="cautions">Cautions</h2>
+<p>If you enable this globally for every directory on your web server and you use WebDAV, be sure to disable Apache's RewriteEngine on WebDAV folders or the Markdown files in your WebDAV volume will get sent to your file manager as HTML as well.</p>
+<p><code>mod_userdir</code> locations like <code>http://server.tld/~user/Foo.mdown</code> don't currently work. (It's difficult to determine the filesystem path using only the URL in such cases.)</p>
+</body>
 </html>
