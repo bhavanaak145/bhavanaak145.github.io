@@ -10,8 +10,8 @@ body  {
   
   margin-top: 50px;
   margin-bottom: 50px;
-  margin-right: 70px;
-  margin-left: 70px;
+  margin-right: 100px;
+  margin-left: 100px;
   
 }
  se {
@@ -25,27 +25,42 @@ body  {
   width: px;
   height: 100px; 
 }
-  #rcorners2 {
+  rcorners2 {
+  border-radius: 00px;
+  background: #E1EBEE;
+  padding: 5px; 
+  width: 200px;
+  height: 22px;  
+}
+rcorners3 {
   border-radius: 00px;
   background: #E1EBEE;
   padding: 00px; 
   width: 100px;
-  height: 30px;  
+  height: 20px;  
+}
+f {
+  font-size: 20px;
+}
+ f1 {
+  font-size: 30px;
 }
 
- 
+f2 {
+  font-size: 25px;
+}
 </style>
 </head>
 <body>
 
-<div><h2><se>Crash course intro to C</h2></se><hr>
-<se><h1> Want a quick introduction to C?</h1></se><hr>
-  <font size="4">
+<div><f2><se>Crash course intro to C</f2></se><hr>
+<se><f1> Want a quick introduction to C?</f1></se><hr>
+  <f>
  <ul>
   <li>Keep reading for the quick crash-course to C Programming below</li>
-  </ul> </font>
-  <se><h1>External resources</h1></se>
-  <hr><font size="4"><ul> 
+  </ul> </f>
+  <se><f1>External resources</f1></se>
+  <hr><f><ul> 
    <li><a href="https://learnxinyminutes.com/docs/c/">Learn X in Y</a>(Highly recommended to skim through!)</li>
   <li><a href="">C for C++/Java Programmers</a></li>
   <li><a href="http://www.lysator.liu.se/c/bwk-tutor.html">C Tutorial by Brian Kernighan</a></li>
@@ -53,8 +68,8 @@ body  {
   <li><a href="https://gribblelab.org/CBootCamp/index.html">C Bootcamp</a></li>
    <li><a href="http://www.cplusplus.com/reference/clibrary/">C/C++ function reference</a></li>
    <li><a href="http://www.unknownroad.com/rtfm/gdbtut/gdbtoc.html">gdb (Gnu debugger) tutorial</a> Tip: run gdb with the "-tui" command line argument to get a full-screen version of the debugger.</li>
-   <li>Add your favorite resources here</li></font><br></ul> 
-   <se><h1>How do you write a complete hello world program in C? </h1></se><hr>
+   <li>Add your favorite resources here</li></f><br></ul> 
+   <se><f1>How do you write a complete hello world program in C? </f1></se><hr>
 <pre><code><p id="rcorners1">
 #include <<x>stdio.h>
 int main(void) { 
@@ -62,31 +77,11 @@ int main(void) {
     return 0; <br>
 }</pre></code>
 </p>  
-  <se><h1>Why do we use ' <p id="rcorners1"> #include<<x>stdio.h> </p> '?</h1></se><hr>
-  	
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  <se><f1>Why do we use ' <rcorners2> #include<<x>stdio.h> </rcorners2> '?</f1></se><hr>
+
+<f><p>We're lazy! We don't want to declare the <rcorners3><code>printf</code></rcorners3> function. It's already done for us inside the file <rcorners3><code>'stdio.h'</rcorners3></code>. The #include includes the text of the file as part of our file to be compiled.</p>
+
+<p>Specifically, the<rcorners3><code> #include</rcorners3></code> directive takes the file <rcorners3><code>stdio.h </rcorners3></code>(which stands for standard input and output) located somewhere in your operating system, copies the text, and substitutes it where the <rcorners3><code>#include</rcorners3></code> was.</p></f>
   </div>
 
 
