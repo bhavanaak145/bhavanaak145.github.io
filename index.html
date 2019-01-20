@@ -2,12 +2,7 @@
 <html>
 <head>
 <style>
-body  {
-  background-image: url("");
-  
-}
   div {
-  
   margin-top: 50px;
   margin-bottom: 50px;
   margin-right: 100px;
@@ -95,7 +90,6 @@ f2 {
 </style>
 </head>
 <body>
-
 <div><f2><se>Crash course intro to C</f2></se><hr>
 <se><f1> Want a quick introduction to C?</f1></se><hr>
   <f>
@@ -105,7 +99,6 @@ f2 {
   <se><f1>External resources</f1></se>
   <hr><f><ul> 
    <li><a href="https://learnxinyminutes.com/docs/c/">Learn X in Y</a>(Highly recommended to skim 
-
 through!)</li>
   <li><a href="">C for C++/Java Programmers</a></li>
   <li><a href="http://www.lysator.liu.se/c/bwk-tutor.html">C Tutorial by Brian Kernighan</a></li>
@@ -113,7 +106,6 @@ through!)</li>
   <li><a href="https://gribblelab.org/CBootCamp/index.html">C Bootcamp</a></li>
    <li><a href="http://www.cplusplus.com/reference/clibrary/">C/C++ function reference</a></li>
    <li><a href="http://www.unknownroad.com/rtfm/gdbtut/gdbtoc.html">gdb (Gnu debugger) tutorial</a> 
-
 Tip: run gdb with the "-tui" command line argument to get a full-screen version of the debugger.</li>
    <li>Add your favorite resources here</li></f><br></ul> 
    <se><f1>How do you write a complete hello world program in C? </f1></se><hr>
@@ -125,35 +117,21 @@ int main(void) {
 }</pre></code>
 </p>  
   <se><f1>Why do we use ' <rcorners2> #include<<x>stdio.h> </rcorners2> '?</f1></se><hr>
-
 <f><p>We're lazy! We don't want to declare the <rcorners3><code>printf</code></rcorners3> function. 
-
 It's already done for us inside the file <rcorners3><code>'stdio.h'</rcorners3></code>. The #include 
-
 includes the text of the file as part of our file to be compiled.</p>
-
 <p>Specifically, the<rcorners3><code> #include</rcorners3></code> directive takes the file 
-
 <rcorners3><code>stdio.h </rcorners3></code>(which stands for standard input and output) located 
-
 somewhere in your operating system, copies the text, and substitutes it where the 
-
 <rcorners3><code>#include</rcorners3></code> was.</p></f>
 <se><f1>How are C strings represented? </f1></se><hr>
 They are represented as characters in memory. The end of the string includes a NULL (0) byte. So "ABC" 
-
 requires four(4) bytes <rcorners3><code>['A','B','C','\0']</rcorners3></code>. The only way to find 
-
 out the length of a C string is to keep reading memory until you find the NULL byte. C characters are 
-
 always exactly one byte each.
-
 <p>When you write a string literal <rcorners3><code>"ABC" </rcorners3></code>in an expression the 
-
 string literal evaluates to a char pointer (<rcorners3><code>char *</rcorners3></code>), which points 
-
 to the first byte/char of the string. This means<rcorners3><code> ptr </rcorners3></code>in the 
-
 example below will hold the memory address of the first character in the string.</p>
 <code><p id="rcorners6">
 char *ptr = "ABC"
@@ -165,7 +143,6 @@ char str[] = "ABC";
 char str[]={'A','B','C','\0'};</pre></code></p>
 <f1><se>How do you declare a pointer?</f1></se><hr>
 A pointer refers to a memory address. The type of the pointer is useful - it tells the compiler how 
-
 many bytes need to be read/written. You can declare a pointer as follows.<br>
 <code><p id="rcorners5">
 int *ptr1;<br>
@@ -173,42 +150,30 @@ char *ptr2;
 </p>
 </code>
 Due to C's grammar, an <rcorners3><code>int* </rcorners3></code>or any pointer is not actually its own 
-
 type. You have to precede each pointer variable with an asterisk. As a common gotcha, the following
 <code><p id="rcorners6">int* ptr3, ptr4;
 </p>
 </code>
 Will only declare <rcorners3><code>*ptr3</rcorners3></code> as a pointer. ptr4 will actually be a 
-
 regular int variable. To fix this declaration, keep the<rcorners3><code>* </rcorners3></code>preceding 
-
 to the pointer
 <code><p id="rcorners6">int* ptr3, ptr4;
 </p>
 </code>
 <f1><se>How do you use a pointer to read/write some memory?</f1></se><hr>
 Let's say that we declare a pointer <rcorners3><code>int *ptr</rcorners3></code>. For the sake of 
-
 discussion, let's say that <rcorners3><code>ptr</rcorners3></code> points to memory address 
-
 <rcorners3><code>0x1000</rcorners3></code>. If we want to write to a pointer, we can dereference and 
-
 assign <rcorners3><code>*ptr</rcorners3></code>.
 <code><p id="rcorners6">*ptr = 0; // Writes some memory.</p></code>
 What C will do is take the type of the pointer which is an <rcorners3><code>int </rcorners3></code>and 
-
 writes <rcorners3><code>sizeof(int)</rcorners3></code> bytes from the start of the pointer, meaning 
-
 that bytes<rcorners3><code> 0x1000</rcorners3></code>, <rcorners3><code>0x1001</rcorners3></code>, 
-
 <rcorners3><code>0x1002</rcorners3></code>,<rcorners3><code> 0x1003</rcorners3></code> will all be 
-
 zero. The number of bytes written depends on the pointer type. It is the same for all primitive types 
-
 but structs are a little different.<br><br>
 <f1><se>What is pointer arithmetic?</f1></se><hr>
 You can add an integer to a pointer. However, the pointer type is used to determine how much to 
-
 increment the pointer. For char pointers this is trivial because characters are always one byte:
 <code><p id="rcorners5">
 char *ptr = "Hello"; // ptr holds the memory location of 'H'<br>
@@ -220,13 +185,10 @@ bna +=1; // Would cause iterate by one integer space (i.e 4 bytes on some system
 ptr = (char *) bna;
 printf("%s", ptr);
 /* Notice how only 'EFGH' is printed. Why is that? Well as mentioned above, when performing <br>'bna
-
 +=1' we are increasing the **integer** pointer by 1, (translates to 4 bytes on most <br>systems) which 
-
 is equivalent to 4 characters (each character is only 1 byte)*/
 return 0;</pre></code></p>
 <p>Because pointer arithmetic in C is always automatically scaled by the size of the type that is 
-
 pointed to, you can't perform pointer arithmetic on void pointers.</p>
 <p>You can think of pointer arithmetic in C as essentially doing the following</p>
 <p>If I want to do</p>
@@ -237,48 +199,31 @@ Think<br>
 char *temp_ptr1 = (char*) ptr1;
 int *offset = (int*)(temp_ptr1 + sizeof(int)*4);</pre></code></p>
 To get the value. <b>Every time you do pointer arithmetic, take a deep breath and make sure that you 
-
 are shifting over the number of bytes you think you are shifting over.</b><br><br>
 <f1><se>What is a void pointer?</f1></se><hr>
 A pointer without a type (very similar to a void variable). Void pointers are used when either a 
-
 datatype you're dealing with is unknown or when you're interfacing C code with other programming 
-
 languages. You can think of this as a raw pointer, or just a memory address. You cannot directly read 
-
 or write to it because the void type does not have a size. For Example
 <code><p id="rcorners5">void *give_me_space = malloc(10);<br>
 char *string = give_me_space;</code></p>
 This does not require a cast because C automatically promotes void* to its appropriate 
-
 type.<b>Note:</b>
 <p>gcc and clang are not total ISO-C compliant, meaning that they will let you do arithmetic on a void 
-
 pointer. They will treat it as a char pointer but do not do this because it may not work with all 
-
 compilers!</p>
 <f1><se>Does printf call write or does write call printf?</f1></se><hr>
 <p><rcorners3><code>printf</rcorners3></code> calls 
-
 <rcorners3><code>write</rcorners3></code>.<rcorners3><code> printf</rcorners3></code> includes an 
-
 internal buffer so, to increase performance<rcorners3><code> printf </rcorners3></code>may not call 
-
 <rcorners3><code>write</rcorners3></code> everytime you call<rcorners3><code> 
-
 printf</rcorners3></code>. <rcorners3><code>printf</rcorners3></code> is a C library 
-
 function.<rcorners3><code> write</rcorners3></code> is a system call and as we know system calls are 
-
 expensive. On the other hand,<rcorners3><code> printf </rcorners3></code>uses a buffer which suits our 
-
 needs better at that point</p>
-
 <f1><se>How do you print out pointer values? integers? strings?</f1></se><hr>
 Use format specifiers "%p" for pointers, "%d" for integers and "%s" for Strings. A full list of all of 
-
 the format specifiers is found <a href="http://www.cplusplus.com/reference/cstdio/printf/">here</a>
-
 Example of integer:
 <code><p id="rcorners5">int num1 = 10;<br>
 printf("%d", num1); //prints num1</code></p>
@@ -297,19 +242,14 @@ Simplest way: run your program and use shell redirection e.g.
 
 #To read the contents of the file,
 cat output.txt</pre></code></p>
-More complicated way: close(1) and then use open to re-open the file descriptor. See [[<a 
-
-href="http://cs-education.github.io/sys/#chapter/0/section/3/activity/0">http://cs-
-
+More complicated way: close(1) and then use open to re-open the file descriptor. See [[<a href="http://cs-education.github.io/sys/#chapter/0/section/3/activity/0">http://cs-
 education.github.io/sys/#chapter/0/section/3/activity/0</a>]]<br><br>
 <f1><se>What's the difference between a pointer and an array? Give an example of something you can do 
-
 with one but not the other.</f1></se><hr>
 <code><p id="rcorners5">char ary[] = "Hello";<br>
 char *ptr = "Hello";</code></p>
 <p>Example<p>
 The array name points to the first byte of the array. Both <rcorners3><code> ary</rcorners3></code>  
-
 and <rcorners3><code> ptr </rcorners3></code> can be printed out:
 <pre><code><p id="rcorners1">char ary[] = "Hello";
 char *ptr = "Hello";
@@ -317,18 +257,14 @@ char *ptr = "Hello";
 printf("%p : %s\n", ary, ary);
 printf("%p : %s\n", ptr, ptr);</pre></code></p>
 The array is mutable, so we can change its contents (be careful not to write bytes beyond the end of 
-
 the array though). Fortunately, 'World' is no longer than 'Hello"
 <p>In this case, the char pointer <rcorners3><code> ptr </rcorners3></code> points to some read-only 
-
 memory (where the statically allocated string literal is stored), so we cannot change those 
-
 contents.</p>
 <code><p id="rcorners5">strcpy(ary, "World"); // OK<br>
 strcpy(ptr, "World"); // NOT OK - Segmentation fault (crashes)
 </code></p>
 We can, however, unlike the array, we change <rcorners3><code> ptr</rcorners3></code>  to point to 
-
 another piece of memory,
 <pre><code><p id="rcorners1">ptr = "World"; // OK!
 ptr = ary; // OK!
@@ -337,32 +273,20 @@ ary = (..anything..) ; // WONT COMPILE
 printf("%p : %s\n", ptr, ptr);
 strcpy(ptr, "World"); // OK because now ptr is pointing to mutable memory (the array)</pre></code></p>
 What to take away from this is that pointers * can point to any type of memory while C arrays [] can 
-
 only point to memory on the stack. In a more common case, pointers will point to heap memory in which 
-
 case the memory referred to by the pointer CAN be modified.<br><br>
 <f1><se><rcorners3><code>sizeof()</rcorners3></code> returns the number of bytes. So using above code, 
-
 what is sizeof(ary) and sizeof(ptr)?</f1></se><hr>
 <rcorners3><code>sizeof(ary)</rcorners3></code>: <rcorners3><code>ary</rcorners3></code> is an array. 
-
 Returns the number of bytes required for the entire array (5 chars + zero byte = 6 bytes) 
-
 <br><rcorners3><code>sizeof(ptr)</rcorners3></code>: Same as sizeof(char *). Returns the number bytes 
-
 required for a pointer (e.g. 4 or 8 for a 32 bit or 64-bit machine)<br><br>
 <rcorners3><code>sizeof </rcorners3></code>is a special operator. Really it's something the compiler 
-
 substitutes in before compiling the program because the size of all types is known at compile time. 
-
 When you have <rcorners3><code>sizeof(char*) </rcorners3></code>that takes the size of a pointer on 
-
 your machine (8 bytes for a 64-bit machine and 4 for a 32 bit and so on). When you try 
-
 <rcorners3><code>sizeof(char[])</rcorners3></code>, the compiler looks at that and substitutes the 
-
 number of bytes that the entire array contains because the total size of the array is known at compile 
-
 time.
 <pre><code><p id="rcorners9">char str1[] = "will be 11";
 char* str2 = "will be 8";
@@ -378,36 +302,26 @@ Be careful, using sizeof for the length of a string!<br><br>
     char p[] = "Hello";
     return p;
 } // Incorrect!</pre></code></p>
-
 Explanation: An array p is created on the stack for the correct size to hold H,e,l,l,o, and a null 
-
 byte i.e. (6) bytes. This array is stored on the stack and is invalid after we return from f2.<br>
-
 <pre><code><p id="rcorners9">char* f3() {
     char *p = "Hello";
     return p;
 } // OK</pre></code></p>
 Explanation: p is a pointer. It holds the address of the string constant. The string constant is 
-
 unchanged and valid even after f3 returns.<br>
 <pre><code><p id="rcorners9">char* f4() {
     static char p[] = "Hello";
     return p;
 } // OK</pre></code></p>
 Explanation: The array is static meaning it exists for the lifetime of the process (static variables 
-
 are not on the heap or the stack).<br>
-
 How do you look up information C library calls and system calls?
 Use the man pages. Note the man pages are organized into sections. Section 2 = System calls. Section 3 
-
 = C libraries. Web: Google "man7 open" shell: man -S2 open or man -S3 printf<br><br>
-
 <f1><se>How do you allocate memory on the heap?</f1></se><hr>
 Use malloc. There's also realloc and calloc. Typically used with sizeof. e.g. enough space to hold 10 
-
 integers
-
 <code><p id="rcorners6">int *space = malloc(sizeof(int) * 10);</code></p>
 <f1><se>What's wrong with this string copy code?</f1></se><hr>
 <pre><code><p id="rcorners9">void mystrcpy(char*dest, char* src) { 
@@ -415,13 +329,11 @@ integers
   while( *src ) { dest = src; src ++; dest++; }  
 }</pre></code></p>
 In the above code it simply changes the dest pointer to point to source string. Also the nuls bytes 
-
 are not copied. Here's a better version -
 <code><p id="rcorners5">  while( *src ) { *dest = *src; src ++; dest++; } <br>
   *dest = *src;
 </code></p>
 Note it's also usual to see the following kind of implementation, which does everything inside the 
-
 expression test, including copying the nul byte.
 <code><p id="rcorners6">  while( (*dest++ = *src++ )) {};</code></p>
 <f1><se>How do you write a strdup replacement?</f1></se><hr>
@@ -438,7 +350,6 @@ Use free!
 //Do some work
 free(n);</pre></code></p>
 <f1><se>What is double free error? How can you avoid? What is a dangling pointer? How do you avoid?
-
 </f1></se><hr>
 A double free error is when you accidentally attempt to free the same allocation twice.
 <pre><code><p id="rcorners1">int *p = malloc(sizeof(int));
@@ -448,24 +359,16 @@ free(p);
 
 free(p); // Oops! - Double free!</pre></code></p>
 The fix is first to write correct programs! Secondly, it's good programming hygiene to reset pointers 
-
 once the memory has been freed. This ensures the pointer can't be used incorrectly without the program 
-
 crashing.
-
 <p>Fix:</p>
-
 <code><p id="rcorners6">p = NULL; // Now you can't use this pointer by mistake</code></p>
 <f1><se>What is an example of buffer overflow?</f1></se><hr>
 Famous example: Heart Bleed (performed a memcpy into a buffer that was of insufficient size). Simple 
-
 example: implement a strcpy and forget to add one to strlen, when determining the size of the memory 
-
 required.<br><br>
-
 <f1><se>What is 'typedef' and how do you use it?</f1></se><hr>
 Declares an alias for a type. Often used with structs to reduce the visual clutter of having to write 
-
 'struct' as part of the type.
 <pre><code><p id="rcorners7">
 typedef float real; 
@@ -483,17 +386,11 @@ int greater_than(void* a, void* b){
     return a > b;
 }
 comparator gt = greater_than;</pre></code></p>
-
 This declares a function type comparator that accepts two 
-
 <rcorners3><code>void*</rcorners3></code>params and returns an integer.<br><br>
-
 <f1><se>Wow that was a lot of C</f1></se><hr>
-
 Don't worry more to come!
 <center><a href="">lets start-->: C Programming, Part 2: Text Input And Output </a></center>
   </div>
-
-
 </body>
 </html>
